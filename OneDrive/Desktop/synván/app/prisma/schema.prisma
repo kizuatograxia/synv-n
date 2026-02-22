@@ -1,0 +1,606 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  ORGANIZER
+  ATTENDEE
+}
+
+enum TicketType {
+  GENERAL
+  MEIA_ENTRADA
+  VIP
+  EARLY_BIRD
+}
+
+enum SeatStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  PIX
+  BOLETO
+  APPLE_PAY
+  GOOGLE_PAY
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REFUSED
+  REFUNDED
+}
+
+enum PayoutStatus {
+  PENDING
+  APPROVED
+  PAID
+  CANCELLED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         UserRole @default(ATTENDEE)
+  cpf          String?  @unique
+  phone        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  eventsOrganized    Event[]             @relation("OrganizerEvents")
+  orders             Order[]
+  tickets            Ticket[]
+  teamMemberships    TeamMember[]
+  bankAccounts       BankAccount[]
+  payouts            Payout[]
+  resaleListings     ResaleListing[]     @relation("SellerResaleListings")
+  waitlistEntries    WaitlistEntry[]
+  integrationConfigs IntegrationConfig[]
+  apiKeys            ApiKey[]
+  whiteLabelConfig   WhiteLabelConfig?
+}
+
+model Certificate {
+  id               String    @id @default(cuid())
+  attendeeName     String
+  eventName        String
+  eventDate        DateTime
+  verificationCode String    @unique
+  templateId       String?
+  deliveredAt      DateTime?
+  downloadedAt     DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  eventId String
+  event   Event  @relation("EventCertificates", fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@index([orderId])
+}
+
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  position  Int      @default(0)
+  notified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  eventId String
+  event   Event  @relation("EventWaitlist", fields: [eventId], references: [id], onDelete: Cascade)
+
+  lotId String?
+  lot   Lot?    @relation(fields: [lotId], references: [id], onDelete: SetNull)
+
+  @@index([eventId])
+  @@index([userId, eventId])
+}
+
+model IntegrationConfig {
+  id        String   @id @default(cuid())
+  type      String
+  apiKey    String?
+  enabled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  apiKeys ApiKey[]
+
+  @@index([eventId])
+  @@index([userId])
+}
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  name       String
+  key        String    @unique
+  scopes     String[]
+  lastUsedAt DateTime?
+  expiresAt  DateTime?
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  userId              String
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  integrationConfig   IntegrationConfig? @relation(fields: [integrationConfigId], references: [id])
+  integrationConfigId String?
+  event               Event?             @relation(fields: [eventId], references: [id])
+  eventId             String?
+
+  @@index([userId])
+}
+
+model ApiUsage {
+  id                 String   @id @default(cuid())
+  totalRequests      Int      @default(0)
+  requestsByEndpoint Json?
+  dailyLimit         Int?
+  monthlyLimit       Int?
+  lastReset          DateTime @default(now())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  eventId String @unique
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model WhiteLabelConfig {
+  id             String   @id @default(cuid())
+  customDomain   String?
+  customEmail    String?
+  logoUrl        String?
+  primaryColor   String?
+  secondaryColor String?
+  fontFamily     String?
+  smtpSettings   Json?
+  emailTemplates Json?
+  active         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  eventId String @unique
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model Event {
+  id                   String    @id @default(cuid())
+  title                String
+  description          String
+  slug                 String    @unique
+  startTime            DateTime
+  endTime              DateTime?
+  location             String?
+  address              String?
+  city                 String?
+  state                String?
+  imageUrl             String?
+  isPublished          Boolean   @default(false)
+  halfPriceEnabled     Boolean   @default(true)
+  halfPriceLimit       Int       @default(40)
+  halfPriceElderlyFree Boolean   @default(true)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  organizerId String
+  organizer   User   @relation("OrganizerEvents", fields: [organizerId], references: [id], onDelete: Cascade)
+
+  lots               Lot[]
+  tickets            Ticket[]
+  orders             Order[]
+  checkins           Checkin[]
+  sessions           Session[]
+  payouts            Payout[]
+  seatMaps           SeatMap[]
+  resaleListings     ResaleListing[]
+  teamMembers        TeamMember[]        @relation("EventTeamMembers")
+  certificates       Certificate[]       @relation("EventCertificates")
+  waitlistEntries    WaitlistEntry[]     @relation("EventWaitlist")
+  integrationConfigs IntegrationConfig[]
+  apiKeys            ApiKey[]
+  apiUsage           ApiUsage?
+  whiteLabelConfig   WhiteLabelConfig?
+
+  @@index([organizerId])
+  @@index([isPublished, startTime])
+}
+
+model Lot {
+  id                String   @id @default(cuid())
+  name              String
+  price             Float
+  totalQuantity     Int
+  availableQuantity Int
+  startDate         DateTime
+  endDate           DateTime
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  tickets         Ticket[]
+  seats           Seat[]
+  sectors         Sector[]
+  waitlistEntries WaitlistEntry[]
+
+  @@index([eventId])
+}
+
+enum HalfPriceEligibility {
+  STUDENT
+  DISABLED
+  YOUTH
+  ELDERLY
+}
+
+model Ticket {
+  id          String                @id @default(cuid())
+  code        String                @unique
+  type        TicketType            @default(GENERAL)
+  eligibility HalfPriceEligibility?
+  price       Float
+  isUsed      Boolean               @default(false)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  lotId String
+  lot   Lot    @relation(fields: [lotId], references: [id], onDelete: Cascade)
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  checkins      Checkin[]
+  seat          Seat?
+  resaleListing ResaleListing?
+
+  @@index([userId])
+  @@index([eventId])
+  @@index([lotId])
+  @@index([orderId])
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  totalAmount     Float
+  paymentMethod   PaymentMethod
+  paymentStatus   PaymentStatus @default(PENDING)
+  paymentId       String?
+  refundRequested Boolean       @default(false)
+  refundApproved  Boolean       @default(false)
+  refundDate      DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  promocodeId String?
+  promocode   Promocode? @relation(fields: [promocodeId], references: [id], onDelete: SetNull)
+
+  tickets      Ticket[]
+  certificates Certificate[]
+
+  @@index([userId, createdAt])
+  @@index([eventId, paymentStatus])
+  @@index([paymentStatus])
+}
+
+model Promocode {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  discountType  String // PERCENTAGE or FIXED
+  discountValue Float
+  maxUsage      Int?
+  currentUsage  Int       @default(0)
+  expiresAt     DateTime?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  orders Order[]
+}
+
+model Checkin {
+  id        String   @id @default(cuid())
+  timestamp DateTime @default(now())
+
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+  @@index([eventId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  name      String
+  startTime DateTime
+  endTime   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  seatMaps SeatMap[]
+
+  @@index([eventId])
+}
+
+model SeatMap {
+  id          String   @id @default(cuid())
+  name        String
+  rows        Int
+  columns     Int
+  aisleConfig Json?    @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  sessionId String?
+  session   Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  sectors Sector[]
+  seats   Seat[]
+
+  @@index([eventId])
+}
+
+model Sector {
+  id        String   @id @default(cuid())
+  name      String
+  color     String?
+  price     Float
+  rowStart  Int
+  rowEnd    Int
+  colStart  Int
+  colEnd    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  seatMapId String
+  seatMap   SeatMap @relation(fields: [seatMapId], references: [id], onDelete: Cascade)
+
+  seats Seat[]
+  lots  Lot[]
+
+  @@index([seatMapId])
+}
+
+model Seat {
+  id         String     @id @default(cuid())
+  row        Int
+  column     Int
+  label      String
+  status     SeatStatus @default(AVAILABLE)
+  reservedAt DateTime?
+  reservedBy String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  seatMapId String
+  seatMap   SeatMap @relation(fields: [seatMapId], references: [id], onDelete: Cascade)
+
+  sectorId String?
+  sector   Sector? @relation(fields: [sectorId], references: [id], onDelete: SetNull)
+
+  lotId String?
+  lot   Lot?    @relation(fields: [lotId], references: [id], onDelete: SetNull)
+
+  ticketId String? @unique
+  ticket   Ticket? @relation(fields: [ticketId], references: [id], onDelete: SetNull)
+
+  @@index([seatMapId, status])
+  @@index([status, reservedAt])
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  role      String
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  eventId String
+  event   Event  @relation("EventTeamMembers", fields: [eventId], references: [id], onDelete: Cascade)
+
+  activityLogs ActivityLog[]
+
+  @@index([eventId])
+  @@index([userId, eventId])
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  action    String // CREATE_EVENT, EDIT_EVENT, VIEW_ANALYTICS, MANAGE_TICKETS, REMOVE_MEMBER
+  details   String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  teamMemberId String
+  teamMember   TeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  @@index([teamMemberId])
+  @@index([createdAt])
+}
+
+model BankAccount {
+  id            String   @id @default(cuid())
+  bankName      String
+  agency        String
+  account       String
+  accountType   String
+  accountHolder String
+  cpf           String
+  isDefault     Boolean  @default(false)
+  isVerified    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  payouts Payout[]
+
+  @@index([userId])
+}
+
+model Payout {
+  id                 String       @id @default(cuid())
+  totalSales         Float
+  totalFees          Float
+  netAmount          Float
+  anticipationAmount Float?
+  anticipationFee    Float?
+  bankTransferFee    Float?
+  finalPayout        Float
+  status             PayoutStatus @default(PENDING)
+  scheduledFor       DateTime?
+  processedAt        DateTime?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  bankAccountId String?
+  bankAccount   BankAccount? @relation(fields: [bankAccountId], references: [id], onDelete: SetNull)
+
+  eventId String?
+  event   Event?  @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  resaleListings ResaleListing[]
+
+  @@index([userId])
+  @@index([eventId])
+  @@index([status])
+}
+
+enum ResaleStatus {
+  ACTIVE
+  PENDING
+  SOLD
+  CANCELLED
+  EXPIRED
+}
+
+model ResaleListing {
+  id             String       @id @default(cuid())
+  resalePrice    Float
+  originalPrice  Float
+  status         ResaleStatus @default(ACTIVE)
+  expiresAt      DateTime
+  soldAt         DateTime?
+  buyerId        String?
+  buyerPaymentId String?
+  sellerPayoutId String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  ticketId String @unique
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  sellerId String
+  seller   User   @relation("SellerResaleListings", fields: [sellerId], references: [id], onDelete: Cascade)
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  payoutId String?
+  payout   Payout? @relation(fields: [payoutId], references: [id], onDelete: SetNull)
+
+  @@index([eventId, status])
+  @@index([sellerId])
+  @@index([status, expiresAt])
+}
+
+enum AuditAction {
+  USER_LOGIN
+  USER_LOGOUT
+  USER_REGISTER
+  PAYMENT_PROCESSED
+  PAYMENT_FAILED
+  PAYMENT_REFUNDED
+  REFUND_APPROVED
+  REFUND_REJECTED
+  PAYOUT_PROCESSED
+  PAYOUT_FAILED
+  ORDER_CREATED
+  ORDER_CANCELLED
+  TICKET_CHECKED_IN
+  EVENT_CREATED
+  EVENT_UPDATED
+  EVENT_DELETED
+  PROMOCODE_CREATED
+  PROMOCODE_USED
+  TEAM_MEMBER_ADDED
+  TEAM_MEMBER_REMOVED
+  BANK_ACCOUNT_ADDED
+  BANK_ACCOUNT_REMOVED
+  API_KEY_CREATED
+  API_KEY_REVOKED
+  WEBHOOK_RECEIVED
+}
+
+model AuditLog {
+  id        String      @id @default(cuid())
+  action    AuditAction
+  entity    String // User, Order, Payment, Event, etc.
+  entityId  String?
+  userId    String?
+  details   Json? // Additional context about the action
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime    @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([entity, entityId])
+  @@index([createdAt])
+}

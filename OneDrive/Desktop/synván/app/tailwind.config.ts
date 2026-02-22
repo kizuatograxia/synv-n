@@ -1,0 +1,181 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        // Primary/Accent: #6C63FF (Purple/Violeta - ticket360.com.br)
+        accent: {
+          DEFAULT: '#6C63FF',
+          50: '#f0f0ff',
+          100: '#e0e0ff',
+          200: '#c2c2ff',
+          300: '#a3a3ff',
+          400: '#8585ff',
+          500: '#6C63FF',
+          600: '#3b2fd6',
+          700: '#2c23a1',
+          800: '#1e186d',
+          900: '#100c3a',
+        },
+        primary: {
+          50: '#fef3f1',
+          100: '#fde4df',
+          200: '#fccdc5',
+          300: '#f9a999',
+          400: '#f27d66',
+          500: '#E8553A',
+          600: '#d4402a',
+          700: '#b2311f',
+          800: '#932c1d',
+          900: '#7a291e',
+          950: '#42110b',
+        },
+        secondary: {
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          200: '#c7d2fe',
+          300: '#a5b4fc',
+          400: '#818cf8',
+          500: '#6366F1',
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+          950: '#1e1b4b',
+        },
+        // ticket360.com.br colors
+        success: {
+          DEFAULT: '#4CAF50',
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          500: '#4CAF50',
+          600: '#16a34a',
+        },
+        error: {
+          DEFAULT: '#F44336',
+          50: '#fef2f2',
+          100: '#fee2e2',
+          500: '#F44336',
+          600: '#dc2626',
+        },
+        warning: {
+          DEFAULT: '#FF9800',
+          50: '#fffbeb',
+          100: '#fef3c7',
+          500: '#FF9800',
+          600: '#d97706',
+        },
+        // Dark mode background
+        dark: {
+          bg: '#1A1A2E',
+          text: '#FFFFFF',
+          secondary: '#AAAAAA',
+          border: '#333333',
+        },
+        // Light mode
+        light: {
+          bg: '#FFFFFF',
+          text: '#1A1A2E',
+          secondary: '#666666',
+          border: '#E0E0E0',
+        },
+        neutral: {
+          50: '#fafaf9',
+          100: '#f5f5f4',
+          200: '#e7e5e4',
+          300: '#d6d3d1',
+          400: '#a8a29e',
+          500: '#78716c',
+          600: '#57534e',
+          700: '#44403c',
+          800: '#292524',
+          900: '#1c1917',
+          950: '#0c0a09',
+        },
+      },
+      fontFamily: {
+        // Headings: Poppins (ticket360.com.br)
+        display: ['var(--font-poppins)', 'Poppins', 'system-ui', 'sans-serif'],
+        // Body: Roboto (ticket360.com.br)
+        body: ['var(--font-roboto)', 'Roboto', 'system-ui', 'sans-serif'],
+      },
+      spacing: {
+        '4': '0.25rem',
+        '8': '0.5rem',
+        '12': '0.75rem',
+        '16': '1rem',
+        '24': '1.5rem',
+        '32': '2rem',
+        '48': '3rem',
+        '64': '4rem',
+      },
+      fontSize: {
+        'xs': ['0.75rem', { lineHeight: '1rem' }],
+        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+        'base': ['1rem', { lineHeight: '1.5rem' }],
+        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+        '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
+        '5xl': ['3rem', { lineHeight: '1.1' }],
+        '6xl': ['3.75rem', { lineHeight: '1.1' }],
+      },
+      fontWeight: {
+        'light': '300',
+        'normal': '400',
+        'medium': '500',
+        'semibold': '600',
+        'bold': '700',
+        'extrabold': '800',
+      },
+      borderRadius: {
+        'sm': '0.25rem',
+        'md': '0.375rem',
+        'lg': '0.5rem',
+        'xl': '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+        'full': '9999px',
+      },
+      boxShadow: {
+        'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+        'md': '0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05)',
+        'lg': '0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.05)',
+        'xl': '0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04)',
+        'card': '0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.03)',
+        'card-hover': '0 10px 25px -5px rgb(0 0 0 / 0.08), 0 4px 10px -3px rgb(0 0 0 / 0.04)',
+        'elevated': '0 20px 40px -8px rgb(0 0 0 / 0.12), 0 8px 16px -4px rgb(0 0 0 / 0.06)',
+        'glow': '0 0 20px -4px rgb(232 85 58 / 0.25)',
+      },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'slide-up': {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'scale-in': {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        'fade-in': 'fade-in 0.3s ease-out',
+        'slide-up': 'slide-up 0.4s ease-out',
+        'scale-in': 'scale-in 0.2s ease-out',
+      },
+    },
+  },
+  plugins: [],
+};
+export default config;

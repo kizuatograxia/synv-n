@@ -1,0 +1,25 @@
+node_modules
+app/node_modules
+.next
+app/.next
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+.env
+*.md
+!CLAUDE.md
+info
+loop.sh
+reverse-loop.sh
+opencode.json
+*.swp
+
+# Lighthouse reports
+*.report.html
+*.report.json
+localhost_*.report.*
+
+# Large files
+*.zip
+*.mcworld

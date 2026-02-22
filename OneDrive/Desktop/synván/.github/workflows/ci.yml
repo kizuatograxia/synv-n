@@ -1,0 +1,286 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./app
+        run: npm ci
+
+      - name: Run npm audit
+        working-directory: ./app
+        run: npm audit --audit-level=high
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: [audit]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./app
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: ./app
+        run: npm run lint
+
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    needs: [audit]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./app
+        run: npm ci
+
+      - name: Run TypeScript type check
+        working-directory: ./app
+        run: npx tsc --noEmit
+
+  prisma-validate:
+    name: Prisma Schema Validation
+    runs-on: ubuntu-latest
+    needs: [audit]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./app
+        run: npm ci
+
+      - name: Validate Prisma schema
+        working-directory: ./app
+        run: npx prisma validate
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: [audit]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./app
+        run: npm ci
+
+      - name: Run tests with coverage
+        working-directory: ./app
+        run: npm run test:coverage
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: app/coverage/
+          retention-days: 30
+
+      - name: Comment coverage on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const coveragePath = 'app/coverage/coverage-final.json';
+            if (fs.existsSync(coveragePath)) {
+              const coverage = JSON.parse(fs.readFileSync(coveragePath, 'utf8'));
+
+              // Calculate total coverage from all files
+              let totalLines = 0, coveredLines = 0;
+              let totalStatements = 0, coveredStatements = 0;
+              let totalFunctions = 0, coveredFunctions = 0;
+              let totalBranches = 0, coveredBranches = 0;
+
+              Object.values(coverage).forEach((file) => {
+                if (file.l) {
+                  totalLines += file.l.t || 0;
+                  coveredLines += file.l.c || 0;
+                }
+                if (file.s) {
+                  totalStatements += file.s.t || 0;
+                  coveredStatements += file.s.c || 0;
+                }
+                if (file.f) {
+                  totalFunctions += file.f.t || 0;
+                  coveredFunctions += file.f.c || 0;
+                }
+                if (file.b) {
+                  totalBranches += file.b.t || 0;
+                  coveredBranches += file.b.c || 0;
+                }
+              });
+
+              const calcPct = (covered, total) => total > 0 ? ((covered / total) * 100).toFixed(2) : '0.00';
+
+              const linesPct = calcPct(coveredLines, totalLines);
+              const statementsPct = calcPct(coveredStatements, totalStatements);
+              const functionsPct = calcPct(coveredFunctions, totalFunctions);
+              const branchesPct = calcPct(coveredBranches, totalBranches);
+
+              const comment = `## 📊 Test Coverage Report
+
+              | Metric | Coverage | Target |
+              |--------|----------|--------|
+              | Lines | ${linesPct}% | ≥80% |
+              | Statements | ${statementsPct}% | ≥80% |
+              | Functions | ${functionsPct}% | ≥80% |
+              | Branches | ${branchesPct}% | ≥80% |
+
+              [View full coverage report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+              `;
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint, type-check, test, prisma-validate]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./app
+        run: npm ci
+
+      - name: Build application
+        working-directory: ./app
+        run: npm run build
+
+  zap:
+    name: OWASP ZAP Baseline Scan
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    continue-on-error: true  # Optional gate - doesn't fail the pipeline
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./app
+        run: npm ci
+
+      - name: Build application
+        working-directory: ./app
+        run: npm run build
+
+      - name: Start application in background
+        working-directory: ./app
+        run: |
+          mkdir -p logs
+          nohup npm start > logs/app.log 2>&1 &
+          echo $! > logs/app.pid
+          # Wait for app to start
+          for i in {1..30}; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "Application started successfully"
+              break
+            fi
+            echo "Waiting for application to start... ($i/30)"
+            sleep 2
+          done
+
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.11.0
+        with:
+          target: 'http://localhost:3000'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+      - name: Upload ZAP report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: report_html.html
+          retention-days: 30
+
+      - name: Stop application
+        if: always()
+        working-directory: ./app
+        run: |
+          if [ -f logs/app.pid ]; then
+            kill $(cat logs/app.pid) || true
+            rm logs/app.pid
+          fi
+
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: docker build -t sympla-app:${{ github.sha }} .

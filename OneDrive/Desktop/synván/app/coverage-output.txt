@@ -1,0 +1,2616 @@
+
+> simprao@0.1.0 test
+> jest --coverage --watchAll=false --testPathIgnorePatterns=e2e/
+
+FAIL src/lib/middleware/__tests__/csrf.test.ts
+  ● CSRF Token Generation › should generate a random token
+
+    expect(received).toBeGreaterThan(expected)
+
+    Matcher error: received value must be a number or bigint
+
+    Received has value: undefined
+
+      66 |     expect(token2).toBeTruthy()
+      67 |     expect(token1).not.toBe(token2) // Tokens should be unique
+    > 68 |     expect(token1.length).toBeGreaterThan(0)
+         |                           ^
+      69 |   })
+      70 |
+      71 |   it('should generate a token pair with signature', () => {
+
+      at Object.toBeGreaterThan (src/lib/middleware/__tests__/csrf.test.ts:68:27)
+
+  ● CSRF Token Generation › should generate a token pair with signature
+
+    expect(received).toBeTruthy()
+
+    Received: undefined
+
+      72 |     const { token, signedToken } = generateCSRFTokenPair()
+      73 |
+    > 74 |     expect(token).toBeTruthy()
+         |                   ^
+      75 |     expect(signedToken).toBeTruthy()
+      76 |     expect(token).not.toBe(signedToken) // Signed token should be different
+      77 |   })
+
+      at Object.toBeTruthy (src/lib/middleware/__tests__/csrf.test.ts:74:19)
+
+  ● CSRF Request Validation › should allow GET requests without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      86 |     const result = validateCSRFRequest(request as any)
+      87 |
+    > 88 |     expect(result.valid).toBe(true)
+         |                          ^
+      89 |   })
+      90 |
+      91 |   it('should allow HEAD requests without CSRF token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:88:26)
+
+  ● CSRF Request Validation › should allow HEAD requests without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+       96 |     const result = validateCSRFRequest(request as any)
+       97 |
+    >  98 |     expect(result.valid).toBe(true)
+          |                          ^
+       99 |   })
+      100 |
+      101 |   it('should allow OPTIONS requests without CSRF token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:98:26)
+
+  ● CSRF Request Validation › should allow OPTIONS requests without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      106 |     const result = validateCSRFRequest(request as any)
+      107 |
+    > 108 |     expect(result.valid).toBe(true)
+          |                          ^
+      109 |   })
+      110 |
+      111 |   it('should reject POST request without CSRF token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:108:26)
+
+  ● CSRF Request Validation › should reject POST request without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      116 |     const result = validateCSRFRequest(request as any)
+      117 |
+    > 118 |     expect(result.valid).toBe(false)
+          |                          ^
+      119 |     expect(result.error).toContain('Missing CSRF token')
+      120 |   })
+      121 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:118:26)
+
+  ● CSRF Request Validation › should reject POST request with invalid CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      134 |     const result = validateCSRFRequest(request as any)
+      135 |
+    > 136 |     expect(result.valid).toBe(false)
+          |                          ^
+      137 |   })
+      138 |
+      139 |   it('should reject POST request with mismatched CSRF token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:136:26)
+
+  ● CSRF Request Validation › should reject POST request with mismatched CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      151 |     const result = validateCSRFRequest(request as any)
+      152 |
+    > 153 |     expect(result.valid).toBe(false)
+          |                          ^
+      154 |     // When signature is invalid for the cookie token, it returns "Invalid CSRF token"
+      155 |     expect(result.error).toContain('Invalid CSRF token')
+      156 |   })
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:153:26)
+
+  ● CSRF Request Validation › should allow POST request with valid CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      172 |     const result = validateCSRFRequest(request as any)
+      173 |
+    > 174 |     expect(result.valid).toBe(true)
+          |                          ^
+      175 |   })
+      176 |
+      177 |   it('should reject POST request with invalid signature', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:174:26)
+
+  ● CSRF Request Validation › should reject POST request with invalid signature
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      191 |     const result = validateCSRFRequest(request as any)
+      192 |
+    > 193 |     expect(result.valid).toBe(false)
+          |                          ^
+      194 |     expect(result.error).toContain('Invalid CSRF token')
+      195 |   })
+      196 | })
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:193:26)
+
+  ● CSRF Route Exemptions › should allow webhook endpoints without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      204 |     const result = validateCSRFRequest(request as any)
+      205 |
+    > 206 |     expect(result.valid).toBe(true)
+          |                          ^
+      207 |   })
+      208 |
+      209 |   it('should allow POST to generic webhook routes', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:206:26)
+
+  ● CSRF Route Exemptions › should allow POST to generic webhook routes
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      214 |     const result = validateCSRFRequest(request as any)
+      215 |
+    > 216 |     expect(result.valid).toBe(true)
+          |                          ^
+      217 |   })
+      218 | })
+      219 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:216:26)
+
+  ● CSRF Cookie Setting › should set CSRF cookies on response
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      239 |     const cookieSigned = mockResponse.cookies.get('csrf_token_signed')
+      240 |
+    > 241 |     expect(cookieToken).toBeDefined()
+          |                         ^
+      242 |     expect(cookieSigned).toBeDefined()
+      243 |   })
+      244 |
+
+      at Object.toBeDefined (src/lib/middleware/__tests__/csrf.test.ts:241:25)
+
+  ● CSRF Cookie Setting › should set CSRF header on response
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      260 |     const response = setCSRFCookies(mockResponse as any)
+      261 |
+    > 262 |     expect(mockResponse.headers.has('x-csrf-token')).toBe(true)
+          |                                                      ^
+      263 |   })
+      264 | })
+      265 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:262:54)
+
+  ● CSRF Protection Middleware › should return valid result for GET request
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      281 |     const result = csrfProtection(request as any)
+      282 |
+    > 283 |     expect(result.valid).toBe(true)
+          |                          ^
+      284 |   })
+      285 |
+      286 |   it('should return invalid result for POST without token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:283:26)
+
+  ● CSRF Protection Middleware › should return invalid result for POST without token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      291 |     const result = csrfProtection(request as any)
+      292 |
+    > 293 |     expect(result.valid).toBe(false)
+          |                          ^
+      294 |     expect(result.error).toBeTruthy()
+      295 |   })
+      296 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:293:26)
+
+  ● CSRF Protection Middleware › should return valid result for POST with valid token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      311 |     const result = csrfProtection(request as any)
+      312 |
+    > 313 |     expect(result.valid).toBe(true)
+          |                          ^
+      314 |   })
+      315 |
+      316 |   it('should exempt webhook routes from CSRF check', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:313:26)
+
+  ● CSRF Protection Middleware › should exempt webhook routes from CSRF check
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      321 |     const result = csrfProtection(request as any)
+      322 |
+    > 323 |     expect(result.valid).toBe(true)
+          |                          ^
+      324 |   })
+      325 | })
+      326 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:323:26)
+
+FAIL src/lib/services/__tests__/marketing-service.test.ts
+  ● MarketingService › trackPurchase › should track purchase with enabled integrations
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: "[Facebook Pixel] Tracking PURCHASE for event event1", Any<Object>
+
+    Number of calls: 0
+
+      141 |       })
+      142 |
+    > 143 |       expect(consoleSpy).toHaveBeenCalledWith(
+          |                          ^
+      144 |         '[Facebook Pixel] Tracking PURCHASE for event event1',
+      145 |         expect.any(Object)
+      146 |       )
+
+      at Object.toHaveBeenCalledWith (src/lib/services/__tests__/marketing-service.test.ts:143:26)
+
+PASS src/lib/services/__tests__/order-service.test.ts
+PASS src/lib/validations/__tests__/order-validation.test.ts
+PASS src/lib/payments/__tests__/boleto-payment-integration.test.ts
+  ● Console
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 3,
+          resetTimeout: 30000,
+          halfOpenMaxCalls: 2,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [CircuitBreaker:EmailService] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 5,
+          resetTimeout: 60000,
+          halfOpenMaxCalls: 3,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [CircuitBreaker:SMSService] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 5,
+          resetTimeout: 60000,
+          halfOpenMaxCalls: 3,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.884Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 1 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.898Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 2 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.903Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 3 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.warn
+      Payment gateway credentials not configured. Using mock implementation.
+
+      51 |
+      52 |     if (!apiKey || !apiSecret) {
+    > 53 |       console.warn('Payment gateway credentials not configured. Using mock implementation.')
+         |               ^
+      54 |       return
+      55 |     }
+      56 |
+
+      at Function.warn [as initialize] (src/lib/payments/payment-service.ts:53:15)
+      at Object.initialize (src/lib/payments/__tests__/boleto-payment-integration.test.ts:298:22)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 4 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.warn
+      Payment gateway credentials not configured. Using mock implementation.
+
+      51 |
+      52 |     if (!apiKey || !apiSecret) {
+    > 53 |       console.warn('Payment gateway credentials not configured. Using mock implementation.')
+         |               ^
+      54 |       return
+      55 |     }
+      56 |
+
+      at Function.warn [as initialize] (src/lib/payments/payment-service.ts:53:15)
+      at Object.initialize (src/lib/payments/__tests__/boleto-payment-integration.test.ts:298:22)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 5 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.warn
+      Payment gateway credentials not configured. Using mock implementation.
+
+      51 |
+      52 |     if (!apiKey || !apiSecret) {
+    > 53 |       console.warn('Payment gateway credentials not configured. Using mock implementation.')
+         |               ^
+      54 |       return
+      55 |     }
+      56 |
+
+      at Function.warn [as initialize] (src/lib/payments/payment-service.ts:53:15)
+      at Object.initialize (src/lib/payments/__tests__/boleto-payment-integration.test.ts:339:22)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 6 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+PASS src/lib/payments/__tests__/payment-service.test.ts
+  ● Console
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 3,
+          resetTimeout: 30000,
+          halfOpenMaxCalls: 2,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [CircuitBreaker:EmailService] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 5,
+          resetTimeout: 60000,
+          halfOpenMaxCalls: 3,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [CircuitBreaker:SMSService] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 5,
+          resetTimeout: 60000,
+          halfOpenMaxCalls: 3,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+PASS src/lib/payments/__tests__/credit-card-integration.test.ts
+  ● Console
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 3,
+          resetTimeout: 30000,
+          halfOpenMaxCalls: 2,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [CircuitBreaker:EmailService] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 5,
+          resetTimeout: 60000,
+          halfOpenMaxCalls: 3,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [CircuitBreaker:SMSService] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 5,
+          resetTimeout: 60000,
+          halfOpenMaxCalls: 3,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.888Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 1 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.900Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 2 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.904Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 3 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.908Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 4 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.913Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 5 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 6 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.warn
+      Payment gateway credentials not configured. Using mock implementation.
+
+      51 |
+      52 |     if (!apiKey || !apiSecret) {
+    > 53 |       console.warn('Payment gateway credentials not configured. Using mock implementation.')
+         |               ^
+      54 |       return
+      55 |     }
+      56 |
+
+      at Function.warn [as initialize] (src/lib/payments/payment-service.ts:53:15)
+      at Object.initialize (src/lib/payments/__tests__/credit-card-integration.test.ts:429:22)
+
+    console.warn
+      Payment gateway credentials not configured. Using mock implementation.
+
+      51 |
+      52 |     if (!apiKey || !apiSecret) {
+    > 53 |       console.warn('Payment gateway credentials not configured. Using mock implementation.')
+         |               ^
+      54 |       return
+      55 |     }
+      56 |
+
+      at Function.warn [as initialize] (src/lib/payments/payment-service.ts:53:15)
+      at Object.initialize (src/lib/payments/__tests__/credit-card-integration.test.ts:429:22)
+
+PASS src/lib/payments/__tests__/pix-payment-integration.test.ts
+  ● Console
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 3,
+          resetTimeout: 30000,
+          halfOpenMaxCalls: 2,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [CircuitBreaker:EmailService] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 5,
+          resetTimeout: 60000,
+          halfOpenMaxCalls: 3,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [CircuitBreaker:SMSService] Circuit breaker initialized {
+        state: 'CLOSED',
+        config: {
+          failureThreshold: 5,
+          resetTimeout: 60000,
+          halfOpenMaxCalls: 3,
+          loggingEnabled: true
+        }
+      }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.958Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 1 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.971Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 2 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:02.976Z Payment gateway initialized: mercadopago {"sandbox":true}
+
+      at log (src/lib/logger/index.ts:106:13)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 3 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.warn
+      Payment gateway credentials not configured. Using mock implementation.
+
+      51 |
+      52 |     if (!apiKey || !apiSecret) {
+    > 53 |       console.warn('Payment gateway credentials not configured. Using mock implementation.')
+         |               ^
+      54 |       return
+      55 |     }
+      56 |
+
+      at Function.warn [as initialize] (src/lib/payments/payment-service.ts:53:15)
+      at Object.initialize (src/lib/payments/__tests__/pix-payment-integration.test.ts:278:22)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 4 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+    console.warn
+      Payment gateway credentials not configured. Using mock implementation.
+
+      51 |
+      52 |     if (!apiKey || !apiSecret) {
+    > 53 |       console.warn('Payment gateway credentials not configured. Using mock implementation.')
+         |               ^
+      54 |       return
+      55 |     }
+      56 |
+
+      at Function.warn [as initialize] (src/lib/payments/payment-service.ts:53:15)
+      at Object.initialize (src/lib/payments/__tests__/pix-payment-integration.test.ts:278:22)
+
+    console.log
+      [CircuitBreaker:PaymentGateway] Execution succeeded { state: 'CLOSED', successCount: 5 }
+
+      at CircuitBreaker.log (src/lib/resilience/circuit-breaker.ts:302:15)
+
+PASS src/lib/services/__tests__/zoom-integration-service.test.ts
+PASS src/lib/payments/__tests__/mercadopago-adapter.test.ts
+PASS src/lib/fees/__tests__/fee-engine.test.ts
+PASS src/lib/services/__tests__/certificate-service.test.ts
+PASS src/lib/services/__tests__/team-service.test.ts
+PASS src/lib/services/__tests__/waitlist-service.test.ts
+PASS src/lib/services/__tests__/resale-service.test.ts
+PASS src/lib/services/__tests__/lot-service.test.ts
+PASS src/lib/auth/__tests__/auth-integration.test.ts
+PASS src/lib/services/__tests__/cart-service.test.ts
+PASS src/lib/middleware/__tests__/rate-limit.test.ts
+PASS src/lib/middleware/__tests__/security-headers.test.ts
+PASS src/lib/services/__tests__/analytics-graceful-degradation.test.ts
+PASS src/app/api/events/__tests__/events-security.test.ts
+  ● Console
+
+    console.log
+      Scanning 0 source files...
+
+      at Object.log (src/app/api/events/__tests__/events-security.test.ts:197:15)
+
+    console.log
+      SQL Query Method Statistics:
+
+      at Object.log (src/app/api/events/__tests__/events-security.test.ts:214:15)
+
+    console.log
+        Safe Prisma queries: 0
+
+      at Object.log (src/app/api/events/__tests__/events-security.test.ts:215:15)
+
+    console.log
+        Raw SQL queries: 0
+
+      at Object.log (src/app/api/events/__tests__/events-security.test.ts:216:15)
+
+    console.log
+        Files with raw SQL: 0
+
+      at Object.log (src/app/api/events/__tests__/events-security.test.ts:217:15)
+
+    console.warn
+        Warning: No Prisma queries found in scanned files
+
+      231 |       // which is fine - the important part is that NO raw SQL is used
+      232 |       if (stats.safeQueries === 0) {
+    > 233 |         console.warn('  Warning: No Prisma queries found in scanned files')
+          |                 ^
+      234 |         // This is acceptable for new projects or during refactoring
+      235 |       }
+      236 |     })
+
+      at Object.warn (src/app/api/events/__tests__/events-security.test.ts:233:17)
+
+PASS src/lib/services/__tests__/error-handler.test.ts
+  ● Console
+
+    console.error
+      [ErrorHandler] {"id":"0.y25yihsx1po","timestamp":"2026-02-09T05:11:03.738Z","severity":"MEDIUM","category":"BUSINESS_LOGIC","message":"Async failed","code":"INTERNAL_ERROR","stack":"Error: Async failed\n    at Object.<anonymous> (/home/pedro/Projects/sympla-experiment/app/src/lib/services/__tests__/error-handler.test.ts:111:50)\n    at Promise.then.completed (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:316:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)\n    at run (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:444:34)\n    at Object.worker (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/testWorker.js:106:12)","resolved":false}
+
+      86 |     }
+      87 |
+    > 88 |     console.error('[ErrorHandler]', JSON.stringify(errorData))
+         |             ^
+      89 |
+      90 |     return errorData
+      91 |   }
+
+      at Function.error [as logError] (src/lib/services/error-handler.ts:88:13)
+      at Function.logError [as handleAsyncError] (src/lib/services/error-handler.ts:179:18)
+      at Object.<anonymous> (src/lib/services/__tests__/error-handler.test.ts:113:7)
+
+PASS src/lib/services/__tests__/seat-map-service.test.ts
+PASS src/lib/services/__tests__/admin-service.test.ts
+PASS src/lib/services/__tests__/analytics-service.test.ts
+PASS src/lib/services/__tests__/profile-service.test.ts
+PASS src/lib/notifications/__tests__/notification-helper.test.ts
+PASS src/lib/services/__tests__/api-service.test.ts
+FAIL src/middleware.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/pedro/Projects/sympla-experiment/app/node_modules/next-auth/index.js:69
+    import { Auth, customFetch } from "@auth/core";
+    ^^^^^^
+
+    SyntaxError: Cannot use import statement outside a module
+
+
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.<anonymous> (src/lib/auth/config.ts:1165:65)
+      at Object.<anonymous> (src/middleware.test.ts:20:17)
+
+/home/pedro/Projects/sympla-experiment/app/src/lib/payments/__tests__/webhook-integration.test.ts:524
+            const mockSendTicketConfirmationEmail = jest.fn().mockRejectedValue(new Error("Network connection timeout"));
+                                                                                ^
+
+Error: Network connection timeout
+    at Object.<anonymous> (/home/pedro/Projects/sympla-experiment/app/src/lib/payments/__tests__/webhook-integration.test.ts:516:9)
+    at Promise.then.completed (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/testWorker.js:106:12)
+
+Node.js v20.19.2
+FAIL src/app/organizer/events/[id]/checkin/__tests__/page.test.tsx
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/pedro/Projects/sympla-experiment/app/node_modules/next-auth/react.js:13
+    import { jsx as _jsx } from "react/jsx-runtime";
+    ^^^^^^
+
+    SyntaxError: Cannot use import statement outside a module
+
+
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.<anonymous> (src/components/layout/app-shell.tsx:3749:27)
+      at Object.<anonymous> (src/app/organizer/events/[id]/checkin/page.tsx:4791:27)
+      at Object.<anonymous> (src/app/organizer/events/[id]/checkin/__tests__/page.test.tsx:23:54)
+
+PASS src/lib/qrcode/__tests__/qrcode-service.test.ts
+/home/pedro/Projects/sympla-experiment/app/src/lib/payments/__tests__/webhook-integration.test.ts:524
+            const mockSendTicketConfirmationEmail = jest.fn().mockRejectedValue(new Error("Network connection timeout"));
+                                                                                ^
+
+Error: Network connection timeout
+    at Object.<anonymous> (/home/pedro/Projects/sympla-experiment/app/src/lib/payments/__tests__/webhook-integration.test.ts:516:9)
+    at Promise.then.completed (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/testWorker.js:106:12)
+
+Node.js v20.19.2
+/home/pedro/Projects/sympla-experiment/app/src/lib/payments/__tests__/webhook-integration.test.ts:524
+            const mockSendTicketConfirmationEmail = jest.fn().mockRejectedValue(new Error("Network connection timeout"));
+                                                                                ^
+
+Error: Network connection timeout
+    at Object.<anonymous> (/home/pedro/Projects/sympla-experiment/app/src/lib/payments/__tests__/webhook-integration.test.ts:516:9)
+    at Promise.then.completed (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/testWorker.js:106:12)
+
+Node.js v20.19.2
+/home/pedro/Projects/sympla-experiment/app/src/lib/payments/__tests__/webhook-integration.test.ts:524
+            const mockSendTicketConfirmationEmail = jest.fn().mockRejectedValue(new Error("Network connection timeout"));
+                                                                                ^
+
+Error: Network connection timeout
+    at Object.<anonymous> (/home/pedro/Projects/sympla-experiment/app/src/lib/payments/__tests__/webhook-integration.test.ts:516:9)
+    at Promise.then.completed (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/home/pedro/Projects/sympla-experiment/app/node_modules/jest-runner/build/testWorker.js:106:12)
+
+Node.js v20.19.2
+FAIL src/lib/payments/__tests__/webhook-integration.test.ts
+  ● Test suite failed to run
+
+    Jest worker encountered 4 child process exceptions, exceeding retry limit
+
+      at ChildProcessWorker.initialize (node_modules/jest-worker/build/workers/ChildProcessWorker.js:181:21)
+
+PASS src/lib/resilience/__tests__/circuit-breaker.test.ts (7.713 s)
+PASS src/lib/cache/__tests__/redis-fallback.test.ts (26.167 s)
+  ● Console
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:02.688Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:02.728Z [Redis] Reconnecting in 50ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:02.785Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:02.786Z [Redis] Reconnecting in 100ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:02.890Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:02.891Z [Redis] Reconnecting in 150ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:03.044Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:03.045Z [Redis] Reconnecting in 200ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:03.046Z [Redis] Error getting key "test-key" {"error":{}}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at error (src/lib/cache/redis.ts:144:12)
+      at Object.<anonymous> (src/lib/cache/__tests__/redis-fallback.test.ts:67:22)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:03.249Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:03.251Z [Redis] Reconnecting in 250ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:03.503Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:03.512Z [Redis] Reconnecting in 300ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:03.816Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:03.817Z [Redis] Reconnecting in 350ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:04.168Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:04.169Z [Redis] Reconnecting in 400ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:04.169Z [Redis] Error getting key "test-key" {"error":{}}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at error (src/lib/cache/redis.ts:144:12)
+      at Object.<anonymous> (src/lib/cache/__tests__/redis-fallback.test.ts:75:22)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:04.569Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:04.570Z [Redis] Reconnecting in 450ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:05.022Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:05.023Z [Redis] Reconnecting in 500ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:05.524Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:05.524Z [Redis] Reconnecting in 550ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:06.076Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:06.077Z [Redis] Reconnecting in 600ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:06.077Z [Redis] Error setting key "test-key" {"error":{}}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at error (src/lib/cache/redis.ts:171:12)
+      at Object.<anonymous> (src/lib/cache/__tests__/redis-fallback.test.ts:85:7)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:06.678Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:06.679Z [Redis] Reconnecting in 650ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:07.330Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:07.331Z [Redis] Reconnecting in 700ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:08.032Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:08.032Z [Redis] Reconnecting in 750ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:08.785Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:08.786Z [Redis] Reconnecting in 800ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:08.786Z [Redis] Error setting key "test-key" {"error":{}}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at error (src/lib/cache/redis.ts:171:12)
+      at Object.<anonymous> (src/lib/cache/__tests__/redis-fallback.test.ts:91:7)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:09.588Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:09.589Z [Redis] Reconnecting in 850ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:10.442Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:10.443Z [Redis] Reconnecting in 900ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:11.345Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:11.346Z [Redis] Reconnecting in 950ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:12.299Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:12.300Z [Redis] Reconnecting in 1000ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:12.301Z [Redis] Error deleting key "test-key" {"error":{}}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at error (src/lib/cache/redis.ts:188:12)
+      at Object.<anonymous> (src/lib/cache/__tests__/redis-fallback.test.ts:99:7)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:13.303Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:13.304Z [Redis] Reconnecting in 1050ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:14.358Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:14.359Z [Redis] Reconnecting in 1100ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:15.462Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:15.464Z [Redis] Reconnecting in 1150ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:16.616Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:16.618Z [Redis] Reconnecting in 1200ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:16.618Z [Redis] Error deleting key "test-key" {"error":{}}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at error (src/lib/cache/redis.ts:188:12)
+      at Object.<anonymous> (src/lib/cache/__tests__/redis-fallback.test.ts:105:7)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:17.821Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:17.822Z [Redis] Reconnecting in 1250ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:19.074Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:19.075Z [Redis] Reconnecting in 1300ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:20.377Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:20.378Z [Redis] Reconnecting in 1350ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:21.731Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:21.732Z [Redis] Reconnecting in 1400ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:21.733Z [Redis] Error invalidating pattern "events:*" {"error":{}}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at error (src/lib/cache/redis.ts:208:12)
+      at Object.<anonymous> (src/lib/cache/__tests__/redis-fallback.test.ts:113:7)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:23.136Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:23.137Z [Redis] Reconnecting in 1450ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:24.589Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:24.589Z [Redis] Reconnecting in 1500ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:26.093Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:26.095Z [Redis] Reconnecting in 1550ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:27.648Z [Redis] Connection error {"error":""}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at EventEmitter.error (src/lib/cache/redis.ts:90:14)
+      at EventEmitter.silentEmit (node_modules/ioredis/built/Redis.js:529:30)
+      at Socket.<anonymous> (node_modules/ioredis/built/redis/event_handler.js:221:14)
+
+    console.warn
+      [33m[WARN][0m 2026-02-09T05:11:27.650Z [Redis] Reconnecting in 1600ms
+
+      102 |     console.error(formatted)
+      103 |   } else if (level === 'warn') {
+    > 104 |     console.warn(formatted)
+          |             ^
+      105 |   } else {
+      106 |     console.log(formatted)
+      107 |   }
+
+      at warn (src/lib/logger/index.ts:104:13)
+      at Object.log [as warn] (src/lib/logger/index.ts:139:52)
+      at EventEmitter.warn (src/lib/cache/redis.ts:98:14)
+
+    console.error
+      [31m[ERROR][0m 2026-02-09T05:11:27.650Z [Redis] Error invalidating pattern "events:*" {"error":{}}
+
+      100 |   // Output to appropriate stream
+      101 |   if (level === 'error') {
+    > 102 |     console.error(formatted)
+          |             ^
+      103 |   } else if (level === 'warn') {
+      104 |     console.warn(formatted)
+      105 |   } else {
+
+      at error (src/lib/logger/index.ts:102:13)
+      at Object.log [as error] (src/lib/logger/index.ts:140:68)
+      at error (src/lib/cache/redis.ts:208:12)
+      at Object.<anonymous> (src/lib/cache/__tests__/redis-fallback.test.ts:119:7)
+
+    console.log
+      [32m[INFO][0m 2026-02-09T05:11:27.654Z [Redis] Connection closed gracefully
+
+      at log (src/lib/logger/index.ts:106:13)
+
+------------------------------|---------|----------|---------|---------|-----------------------------------------------------------------
+File                          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                               
+------------------------------|---------|----------|---------|---------|-----------------------------------------------------------------
+All files                     |   72.36 |    59.89 |    70.6 |   73.01 |                                                                 
+ cache                        |   75.32 |    42.85 |   76.92 |   76.31 |                                                                 
+  redis.ts                    |   75.32 |    42.85 |   76.92 |   76.31 | 70-75,81,85,105-106,120,134,139-142,160,168,182,204-205         
+ fees                         |   97.14 |      100 |    92.3 |   98.03 |                                                                 
+  fee-engine.ts               |     100 |      100 |     100 |     100 |                                                                 
+  index.ts                    |     100 |      100 |     100 |     100 |                                                                 
+  state-taxes.ts              |   57.14 |      100 |      50 |   66.66 | 63-64                                                           
+ logger                       |   72.72 |    57.69 |      80 |    73.8 |                                                                 
+  index.ts                    |   72.72 |    57.69 |      80 |    73.8 | 35,58,113-130                                                   
+ middleware                   |   67.69 |    64.15 |   67.56 |   67.19 |                                                                 
+  csrf.ts                     |   61.72 |    52.94 |    62.5 |   62.02 | 52,110-118,147-154,167,201-218,227,287-319                      
+  rate-limit.ts               |   56.92 |    44.44 |   54.54 |   56.25 | 38-42,67,71,88,95,219-272,287-289                               
+  security-headers.ts         |   91.83 |    94.44 |      90 |    91.3 | 207-212,245                                                     
+ notifications                |   82.35 |       75 |      75 |   81.81 |                                                                 
+  notification-helper.ts      |   82.35 |       75 |      75 |   81.81 | 54-55,103-104,130-140                                           
+ payments                     |   82.96 |    71.42 |   83.33 |   82.77 |                                                                 
+  payment-service.ts          |   82.96 |    71.42 |   83.33 |   82.77 | 22,29,35-38,74,84,193,250,264,282,307,328,349,494-501,547-568   
+ payments/adapters            |    87.8 |    63.91 |   89.28 |   89.83 |                                                                 
+  mercadopago.ts              |    87.6 |    62.36 |   88.46 |   89.65 | 112,203,220,353,382-385,406,415,424,485,498                     
+  types.ts                    |     100 |      100 |     100 |     100 |                                                                 
+ qrcode                       |   95.08 |    93.75 |      90 |   95.08 |                                                                 
+  qrcode-service.ts           |   95.08 |    93.75 |      90 |   95.08 | 44-46                                                           
+ resilience                   |   69.69 |       60 |   67.74 |   70.54 |                                                                 
+  circuit-breaker.ts          |   93.97 |       75 |     100 |   93.97 | 123-124,167,197,241                                             
+  index.ts                    |      50 |      100 |     100 |      50 | 9-11                                                            
+  wrappers.ts                 |   25.58 |        0 |   23.07 |      25 | 73-74,114-190                                                   
+ services                     |   64.84 |    47.64 |   64.45 |   65.51 |                                                                 
+  admin-service.ts            |   43.63 |    14.28 |   58.33 |   46.93 | 225-312                                                         
+  analytics-service.ts        |    73.8 |    44.44 |      75 |   74.66 | 49,53-55,86-91,109,150,202-204,237-258                          
+  api-service.ts              |   69.04 |       60 |   72.72 |   68.29 | 40,93,115-150,182-221                                           
+  audit-service.ts            |   22.22 |     9.67 |       8 |    23.4 | 21,38-39,63-107,143-424                                         
+  cart-service.ts             |   53.52 |    46.42 |   47.82 |   52.38 | 50,78,87,123,138-255                                            
+  certificate-service.ts      |   66.66 |    44.44 |   55.55 |   66.66 | 38,46,80-148,212,397-401                                        
+  error-handler.ts            |   96.77 |    57.14 |     100 |   96.77 | 37                                                              
+  lot-service.ts              |   96.87 |    92.85 |      80 |   96.77 | 16                                                              
+  marketing-service.ts        |   59.72 |       25 |   68.75 |   59.72 | 37,52,81,85,99-136,153,209-220,247-251,267,271,291,295          
+  order-service.ts            |   71.55 |    68.51 |   54.54 |   71.68 | 46,161-169,222,236-247,253,271-352,370,374,402-407              
+  profile-service.ts          |      88 |    66.66 |   88.88 |   91.66 | 43,181                                                          
+  resale-service.ts           |   45.79 |    24.24 |   44.44 |   45.79 | 61,69,77,93,133,137,144,183-235,244,252,269-438,459,473,480,487 
+  seat-map-service.ts         |   87.71 |    81.81 |   94.44 |   86.79 | 31,155-166,241                                                  
+  team-service.ts             |   66.21 |    27.27 |   85.71 |   66.19 | 44,48-58,123,137,172,178-188,217,223-233,254-279,317,336-337    
+  team-types.ts               |     100 |      100 |     100 |     100 |                                                                 
+  waitlist-service.ts         |   63.79 |       40 |   72.72 |   64.91 | 18,22-58,102-154,166,170,203,207                                
+  zoom-integration-service.ts |   82.97 |       25 |   88.88 |   84.78 | 153-166                                                         
+ validations                  |   88.88 |      100 |     100 |     100 |                                                                 
+  order.ts                    |   88.88 |      100 |     100 |     100 |                                                                 
+------------------------------|---------|----------|---------|---------|-----------------------------------------------------------------
+
+Summary of all failing tests
+FAIL src/lib/middleware/__tests__/csrf.test.ts
+  ● CSRF Token Generation › should generate a random token
+
+    expect(received).toBeGreaterThan(expected)
+
+    Matcher error: received value must be a number or bigint
+
+    Received has value: undefined
+
+      66 |     expect(token2).toBeTruthy()
+      67 |     expect(token1).not.toBe(token2) // Tokens should be unique
+    > 68 |     expect(token1.length).toBeGreaterThan(0)
+         |                           ^
+      69 |   })
+      70 |
+      71 |   it('should generate a token pair with signature', () => {
+
+      at Object.toBeGreaterThan (src/lib/middleware/__tests__/csrf.test.ts:68:27)
+
+  ● CSRF Token Generation › should generate a token pair with signature
+
+    expect(received).toBeTruthy()
+
+    Received: undefined
+
+      72 |     const { token, signedToken } = generateCSRFTokenPair()
+      73 |
+    > 74 |     expect(token).toBeTruthy()
+         |                   ^
+      75 |     expect(signedToken).toBeTruthy()
+      76 |     expect(token).not.toBe(signedToken) // Signed token should be different
+      77 |   })
+
+      at Object.toBeTruthy (src/lib/middleware/__tests__/csrf.test.ts:74:19)
+
+  ● CSRF Request Validation › should allow GET requests without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      86 |     const result = validateCSRFRequest(request as any)
+      87 |
+    > 88 |     expect(result.valid).toBe(true)
+         |                          ^
+      89 |   })
+      90 |
+      91 |   it('should allow HEAD requests without CSRF token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:88:26)
+
+  ● CSRF Request Validation › should allow HEAD requests without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+       96 |     const result = validateCSRFRequest(request as any)
+       97 |
+    >  98 |     expect(result.valid).toBe(true)
+          |                          ^
+       99 |   })
+      100 |
+      101 |   it('should allow OPTIONS requests without CSRF token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:98:26)
+
+  ● CSRF Request Validation › should allow OPTIONS requests without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      106 |     const result = validateCSRFRequest(request as any)
+      107 |
+    > 108 |     expect(result.valid).toBe(true)
+          |                          ^
+      109 |   })
+      110 |
+      111 |   it('should reject POST request without CSRF token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:108:26)
+
+  ● CSRF Request Validation › should reject POST request without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      116 |     const result = validateCSRFRequest(request as any)
+      117 |
+    > 118 |     expect(result.valid).toBe(false)
+          |                          ^
+      119 |     expect(result.error).toContain('Missing CSRF token')
+      120 |   })
+      121 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:118:26)
+
+  ● CSRF Request Validation › should reject POST request with invalid CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      134 |     const result = validateCSRFRequest(request as any)
+      135 |
+    > 136 |     expect(result.valid).toBe(false)
+          |                          ^
+      137 |   })
+      138 |
+      139 |   it('should reject POST request with mismatched CSRF token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:136:26)
+
+  ● CSRF Request Validation › should reject POST request with mismatched CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      151 |     const result = validateCSRFRequest(request as any)
+      152 |
+    > 153 |     expect(result.valid).toBe(false)
+          |                          ^
+      154 |     // When signature is invalid for the cookie token, it returns "Invalid CSRF token"
+      155 |     expect(result.error).toContain('Invalid CSRF token')
+      156 |   })
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:153:26)
+
+  ● CSRF Request Validation › should allow POST request with valid CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      172 |     const result = validateCSRFRequest(request as any)
+      173 |
+    > 174 |     expect(result.valid).toBe(true)
+          |                          ^
+      175 |   })
+      176 |
+      177 |   it('should reject POST request with invalid signature', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:174:26)
+
+  ● CSRF Request Validation › should reject POST request with invalid signature
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      191 |     const result = validateCSRFRequest(request as any)
+      192 |
+    > 193 |     expect(result.valid).toBe(false)
+          |                          ^
+      194 |     expect(result.error).toContain('Invalid CSRF token')
+      195 |   })
+      196 | })
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:193:26)
+
+  ● CSRF Route Exemptions › should allow webhook endpoints without CSRF token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      204 |     const result = validateCSRFRequest(request as any)
+      205 |
+    > 206 |     expect(result.valid).toBe(true)
+          |                          ^
+      207 |   })
+      208 |
+      209 |   it('should allow POST to generic webhook routes', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:206:26)
+
+  ● CSRF Route Exemptions › should allow POST to generic webhook routes
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      214 |     const result = validateCSRFRequest(request as any)
+      215 |
+    > 216 |     expect(result.valid).toBe(true)
+          |                          ^
+      217 |   })
+      218 | })
+      219 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:216:26)
+
+  ● CSRF Cookie Setting › should set CSRF cookies on response
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      239 |     const cookieSigned = mockResponse.cookies.get('csrf_token_signed')
+      240 |
+    > 241 |     expect(cookieToken).toBeDefined()
+          |                         ^
+      242 |     expect(cookieSigned).toBeDefined()
+      243 |   })
+      244 |
+
+      at Object.toBeDefined (src/lib/middleware/__tests__/csrf.test.ts:241:25)
+
+  ● CSRF Cookie Setting › should set CSRF header on response
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      260 |     const response = setCSRFCookies(mockResponse as any)
+      261 |
+    > 262 |     expect(mockResponse.headers.has('x-csrf-token')).toBe(true)
+          |                                                      ^
+      263 |   })
+      264 | })
+      265 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:262:54)
+
+  ● CSRF Protection Middleware › should return valid result for GET request
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      281 |     const result = csrfProtection(request as any)
+      282 |
+    > 283 |     expect(result.valid).toBe(true)
+          |                          ^
+      284 |   })
+      285 |
+      286 |   it('should return invalid result for POST without token', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:283:26)
+
+  ● CSRF Protection Middleware › should return invalid result for POST without token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      291 |     const result = csrfProtection(request as any)
+      292 |
+    > 293 |     expect(result.valid).toBe(false)
+          |                          ^
+      294 |     expect(result.error).toBeTruthy()
+      295 |   })
+      296 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:293:26)
+
+  ● CSRF Protection Middleware › should return valid result for POST with valid token
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      311 |     const result = csrfProtection(request as any)
+      312 |
+    > 313 |     expect(result.valid).toBe(true)
+          |                          ^
+      314 |   })
+      315 |
+      316 |   it('should exempt webhook routes from CSRF check', () => {
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:313:26)
+
+  ● CSRF Protection Middleware › should exempt webhook routes from CSRF check
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      321 |     const result = csrfProtection(request as any)
+      322 |
+    > 323 |     expect(result.valid).toBe(true)
+          |                          ^
+      324 |   })
+      325 | })
+      326 |
+
+      at Object.toBe (src/lib/middleware/__tests__/csrf.test.ts:323:26)
+
+FAIL src/lib/services/__tests__/marketing-service.test.ts
+  ● MarketingService › trackPurchase › should track purchase with enabled integrations
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: "[Facebook Pixel] Tracking PURCHASE for event event1", Any<Object>
+
+    Number of calls: 0
+
+      141 |       })
+      142 |
+    > 143 |       expect(consoleSpy).toHaveBeenCalledWith(
+          |                          ^
+      144 |         '[Facebook Pixel] Tracking PURCHASE for event event1',
+      145 |         expect.any(Object)
+      146 |       )
+
+      at Object.toHaveBeenCalledWith (src/lib/services/__tests__/marketing-service.test.ts:143:26)
+
+FAIL src/middleware.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/pedro/Projects/sympla-experiment/app/node_modules/next-auth/index.js:69
+    import { Auth, customFetch } from "@auth/core";
+    ^^^^^^
+
+    SyntaxError: Cannot use import statement outside a module
+
+
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.<anonymous> (src/lib/auth/config.ts:1165:65)
+      at Object.<anonymous> (src/middleware.test.ts:20:17)
+
+FAIL src/app/organizer/events/[id]/checkin/__tests__/page.test.tsx
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/pedro/Projects/sympla-experiment/app/node_modules/next-auth/react.js:13
+    import { jsx as _jsx } from "react/jsx-runtime";
+    ^^^^^^
+
+    SyntaxError: Cannot use import statement outside a module
+
+
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.<anonymous> (src/components/layout/app-shell.tsx:3749:27)
+      at Object.<anonymous> (src/app/organizer/events/[id]/checkin/page.tsx:4791:27)
+      at Object.<anonymous> (src/app/organizer/events/[id]/checkin/__tests__/page.test.tsx:23:54)
+
+FAIL src/lib/payments/__tests__/webhook-integration.test.ts
+  ● Test suite failed to run
+
+    Jest worker encountered 4 child process exceptions, exceeding retry limit
+
+      at ChildProcessWorker.initialize (node_modules/jest-worker/build/workers/ChildProcessWorker.js:181:21)
+
+
+Test Suites: 5 failed, 30 passed, 35 total
+Tests:       19 failed, 460 passed, 479 total
+Snapshots:   0 total
+Time:        28.052 s
+Ran all test suites.

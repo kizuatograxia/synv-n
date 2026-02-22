@@ -1,0 +1,23 @@
+# ZAP Baseline Scan Rules Configuration
+# Format: rule_id\tenable\tlevel
+# Levels: 0=OFF, 1=LOW, 2=MEDIUM, 3=HIGH
+#
+# This configuration tunes which security rules are enabled and their severity levels.
+
+# Informational disclosures (often false positives in dev environments)
+10021	0	0	# X-Content-Type-Options Header Missing
+10020	0	0	# X-Frame-Options Header Missing
+10017	0	0	# X-Debug-Token Information Leak (Next.js specific)
+10054	0	0	# X-AspNet-Version Response Header (not applicable to Node.js)
+
+# Cookie security (Next.js handles these appropriately)
+10061	0	0	# Cookie Without SameSite Attribute (Next.js defaults are secure)
+10062	0	0	# Session ID in URL Rewrite (not applicable)
+
+# Content Security Policy (already implemented via middleware)
+10016	1	2	# Web Browser XSS Protection Not Enabled (deprecated, CSP is better)
+
+# Keep these enabled
+10096	1	3	# Timestamp Disclosure
+10021	1	2	# X-Content-Type-Options Header Missing (re-enable if not using middleware)
+10105	1	1	# Absence of Anti-CSRF Tokens

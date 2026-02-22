@@ -1,0 +1,78 @@
+# Dependencies
+node_modules/
+vendor/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Build output
+dist/
+build/
+target/
+out/
+bin/
+.next/
+app/.next/
+
+# Lock files
+.locks/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage
+coverage/
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# ZAP (OWASP Zed Attack Proxy)
+.zap-home/
+zap-home/
+
+# Grange runtime
+.env
+.env.local
+.locks/
+.ike-state
+.git-commit-signal
+LOG.md
+PLAN.md
+DRIFT.md
+
+# Build artifacts
+app/tsconfig.tsbuildinfo
+
+# Test/report artifacts
+app/playwright-report/
+*.report.html
+*.report.json
+localhost_*.report.*
+
+# Scripts
+reverse-loop.sh
